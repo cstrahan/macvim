@@ -106,17 +106,9 @@
 # define rb_check_type rb_check_type_stub
 #endif
 
-#ifdef FEAT_GUI_MACVIM
-# include <Ruby/ruby.h>
-#else
-# include <ruby.h>
-#endif
+#include <ruby.h>
 #ifdef RUBY19_OR_LATER
-# ifdef FEAT_GUI_MACVIM
-#  include <Ruby/ruby/encoding.h>
-# else
-#  include <ruby/encoding.h>
-# endif
+# include <ruby/encoding.h>
 #endif
 
 #undef off_t	/* ruby defines off_t as _int64, Mingw uses long */

@@ -5383,10 +5383,7 @@ $as_echo "no" >&6; }
   fi
 
   if test "X$vi_cv_path_mzscheme_pfx" != "X"; then
-    if test "x$MACOSX" = "xyes"; then
-      MZSCHEME_LIBS="-framework Racket"
-      MZSCHEME_CFLAGS="-DMZ_PRECISE_GC"
-    elif test -f "${vi_cv_path_mzscheme_pfx}/lib/libmzscheme3m.a"; then
+    if test -f "${vi_cv_path_mzscheme_pfx}/lib/libmzscheme3m.a"; then
       MZSCHEME_LIBS="${vi_cv_path_mzscheme_pfx}/lib/libmzscheme3m.a"
       MZSCHEME_CFLAGS="-DMZ_PRECISE_GC"
     elif test -f "${vi_cv_path_mzscheme_pfx}/lib/libracket3m.a"; then
@@ -5731,23 +5728,6 @@ $as_echo ">>> too old; need Perl version 5.003_01 or later <<<" >&6; }
   fi
 
   if test "x$MACOSX" = "xyes"; then
-        dir=/System/Library/Perl
-    darwindir=$dir/darwin
-    if test -d $darwindir; then
-      PERL=/usr/bin/perl
-    else
-            dir=/System/Library/Perl/5.8.1
-      darwindir=$dir/darwin-thread-multi-2level
-      if test -d $darwindir; then
-	PERL=/usr/bin/perl
-      fi
-    fi
-    if test -n "$PERL"; then
-      PERL_DIR="$dir"
-      PERL_CFLAGS="-DFEAT_PERL -I$darwindir/CORE"
-      PERL_OBJ="objects/if_perl.o objects/if_perlsfio.o $darwindir/auto/DynaLoader/DynaLoader.a"
-      PERL_LIBS="-L$darwindir/CORE -lperl"
-    fi
                 PERL_LIBS=`echo "$PERL_LIBS" | sed -e 's/-arch\ ppc//' -e 's/-arch\ i386//' -e 's/-arch\ x86_64//'`
     PERL_CFLAGS=`echo "$PERL_CFLAGS" | sed -e 's/-arch\ ppc//' -e 's/-arch\ i386//' -e 's/-arch\ x86_64//'`
   fi
@@ -5954,13 +5934,6 @@ __:
 eof
 	    	    eval "`cd ${PYTHON_CONFDIR} && make -f "${tmp_mkf}" __ | sed '/ directory /d'`"
 	    rm -f -- "${tmp_mkf}"
-	    if test "x$MACOSX" = "xyes" && ${vi_cv_path_python} -c \
-		"import sys; sys.exit(${vi_cv_var_python_version} < 2.3)"; then
-	      vi_cv_path_python_plibs="-framework Python"
-	      if test "x${vi_cv_path_python}" != "x/usr/bin/python" && test -n "${python_PYTHONFRAMEWORKPREFIX}"; then
-		  vi_cv_path_python_plibs="-F${python_PYTHONFRAMEWORKPREFIX} -framework Python"
-	      fi
-	    else
 	      if test "${vi_cv_var_python_version}" = "1.4"; then
 		  vi_cv_path_python_plibs="${PYTHON_CONFDIR}/libModules.a ${PYTHON_CONFDIR}/libPython.a ${PYTHON_CONFDIR}/libObjects.a ${PYTHON_CONFDIR}/libParser.a"
 	      else
@@ -5979,7 +5952,6 @@ eof
 	      fi
 	      vi_cv_path_python_plibs="${vi_cv_path_python_plibs} ${python_BASEMODLIBS} ${python_LIBS} ${python_SYSLIBS} ${python_LINKFORSHARED}"
 	      	      vi_cv_path_python_plibs=`echo $vi_cv_path_python_plibs | sed s/-ltermcap//`
-	    fi
 
 fi
 
@@ -6054,13 +6026,6 @@ rm -f core conftest.err conftest.$ac_objext \
 	  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 	fi
-
-                                if test -n "$MACSDK"; then
-          PYTHON_CFLAGS=
-          PYTHON_LIBS=-framework Python
-          PYTHON_CONFDIR=
-          PYTHON_GETPATH_CFLAGS=
-        fi
 
 			{ $as_echo "$as_me:${as_lineno-$LINENO}: checking if compile and link flags for Python are sane" >&5
 $as_echo_n "checking if compile and link flags for Python are sane... " >&6; }
@@ -6919,11 +6884,7 @@ $as_echo "$tclver - OK" >&6; };
 
       { $as_echo "$as_me:${as_lineno-$LINENO}: checking for location of Tcl include" >&5
 $as_echo_n "checking for location of Tcl include... " >&6; }
-      if test "x$MACOSX" != "xyes"; then
 	tclinc="$tclloc/include $tclloc/include/tcl $tclloc/include/tcl$tclver /usr/local/include /usr/local/include/tcl$tclver /usr/include /usr/include/tcl$tclver"
-      else
-		tclinc="/System/Library/Frameworks/Tcl.framework/Headers"
-      fi
       TCL_INC=
       for try in $tclinc; do
 	if test -f "$try/tcl.h"; then
@@ -6941,12 +6902,8 @@ $as_echo "<not found>" >&6; }
       if test -z "$SKIP_TCL"; then
 	{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for location of tclConfig.sh script" >&5
 $as_echo_n "checking for location of tclConfig.sh script... " >&6; }
-	if test "x$MACOSX" != "xyes"; then
 	  tclcnf=`echo $tclinc | sed s/include/lib/g`
 	  tclcnf="$tclcnf `echo $tclinc | sed s/include/lib64/g`"
-	else
-	  	  tclcnf="/System/Library/Frameworks/Tcl.framework"
-	fi
 	for try in $tclcnf; do
 	  if test -f $try/tclConfig.sh; then
 	    { $as_echo "$as_me:${as_lineno-$LINENO}: result: $try/tclConfig.sh" >&5
@@ -7120,10 +7077,6 @@ $as_echo "$rubyhdrdir" >&6; }
 	if test -f "$rubylibdir/$librubya"; then
 	  librubyarg="$librubyarg"
 	  RUBY_LIBS="$RUBY_LIBS -L$rubylibdir"
-        elif test -d "/System/Library/Frameworks/Ruby.framework"; then
-                        RUBY_LIBS="-framework Ruby"
-                        RUBY_CFLAGS="-DRUBY_VERSION=$rubyversion"
-            librubyarg=
 	fi
 
 	if test "X$librubyarg" != "X"; then

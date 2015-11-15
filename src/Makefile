@@ -1306,7 +1306,7 @@ MACVIMGUI_SRC	= gui.c gui_beval.c MacVim/gui_macvim.m MacVim/MMBackend.m \
 		  MacVim/MacVim.m
 MACVIMGUI_OBJ	= objects/gui.o objects/gui_beval.o objects/pty.o \
 		  objects/gui_macvim.o objects/MMBackend.o objects/MacVim.o
-MACVIMGUI_DEFS	= -DFEAT_GUI_MACVIM -Wall -Wno-unknown-pragmas -pipe
+MACVIMGUI_DEFS	= -DMACOS_X_UNIX -DFEAT_GUI_MACVIM -Wall -Wno-unknown-pragmas -pipe
 MACVIMGUI_IPATH	=
 MACVIMGUI_LIBS_DIR =
 MACVIMGUI_LIBS1	= -framework Cocoa -framework Carbon
